@@ -15,7 +15,7 @@ let recordatorioHidratarse = false;
 let idChat = '';
 
 fse
-  .remove('./session/Default/Service Worker/Database/MANIFEST-000001')
+  .remove('./julioBot/Default/Service Worker/Database/MANIFEST-000001')
   .then(() => {
     // Second create() parameter is the QR callback
     sulla
@@ -129,7 +129,7 @@ function start(client) {
 }
 
 app.get('/', (req, res) => {
-  return res.sendfile('./julioQR.png');
+  return res.sendFile(__dirname + '/julioQR.png');
 });
 
 const PORT = process.env.PORT || '5000';
