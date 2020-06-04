@@ -1,6 +1,8 @@
 const axios = require('axios');
 const { parse } = require('node-html-parser');
 
+const { nadaParaMostrar } = require('../mensajes/ayuda');
+
 const signos = [
   'aries',
   'tauro',
@@ -38,8 +40,7 @@ const horoscopo = async signo => {
     const respuesta = objetoHoroscopo[signo.toLowerCase()];
 
     if (!respuesta) {
-      return `No hay resultados 👀
-      Para ver los comandos disponibles enviá: *!ayuda*`;
+      return nadaParaMostrar;
     }
 
     return `*Horoscopo para ${signo}:*
