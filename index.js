@@ -19,13 +19,17 @@ fse
   .then(() => {
     // Second create() parameter is the QR callback
     sulla
-      .create('julioBot', (base64Qr, asciiQR) => {
-        // To log the QR in the terminal
-        console.log(asciiQR);
+      .create(
+        'julioBot',
+        (base64Qr, asciiQR) => {
+          // To log the QR in the terminal
+          console.log(asciiQR);
 
-        // To write it somewhere else in a file
-        exportQR(base64Qr, __dirname + 'julioQR.png');
-      })
+          // To write it somewhere else in a file
+          exportQR(base64Qr, __dirname + 'julioQR.png');
+        },
+        { browserArgs: ['--no-sandbox'] },
+      )
       .then(client => start(client));
   });
 
