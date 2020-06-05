@@ -5,3 +5,4 @@ session
 .gitignore
 julioBot
 julioQR.png
+session.data.json

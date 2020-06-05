@@ -1,7 +1,7 @@
-const sulla = require('sulla');
-const fse = require('fs-extra');
+const wa = require('@open-wa/wa-automate');
 const express = require('express');
 require('dotenv').config();
+const app = express();
 
 const { ayuda, generos } = require('./mensajes/ayuda');
 const horoscopo = require('./utils/horoscopo');
@@ -9,64 +9,40 @@ const buscarPelicula = require('./utils/peliculas');
 const obtenerVersiculo = require('./utils/versiculo');
 const { reirse } = require('./utils/reacciones');
 const mensajeHidratarse = require('./mensajes/tomarAgua');
-const app = express();
-
 let recordatorioHidratarse = false;
 let idChat = '';
 
-fse
-  .remove('./julioBot/Default/Service Worker/Database/MANIFEST-000001')
-  .then(() => {
-    // Second create() parameter is the QR callback
-    sulla
-      .create(
-        'julioBot',
-        (base64Qr, asciiQR) => {
-          // To log the QR in the terminal
-          console.log(asciiQR);
-
-          // To write it somewhere else in a file
-          // exportQR(base64Qr, __dirname + 'julioQR.png');
-        },
-        {
-          headless: true, // Headless chrome
-          devtools: false, // Open devtools by default
-          useChrome: true, // If false will use Chromium instance
-          debug: false, // Opens a debug session
-          logQR: true, // Logs QR automatically in terminal
-          browserArgs: ['--no-sandbox'], // Parameters to be added into the chrome browser instance
-          refreshQR: 15000, // Will refresh QR every 15 seconds, 0 will load QR once. Default is 30 seconds },
-        },
-      )
-      .then(client => start(client));
-  });
-
-// Writes QR in specified path
-function exportQR(qrCode, path) {
-  qrCode = qrCode.replace('data:image/png;base64,', '');
-  const imageBuffer = Buffer.from(qrCode, 'base64');
-
-  // Creates 'marketing-qr.png' file
-  fse.writeFileSync(path, imageBuffer);
-}
+wa.create().then(client => start(client));
 
 function start(client) {
   //Recordatorio para tomar agua a cada 30 minutos
   setInterval(async () => {
     if (recordatorioHidratarse) {
-      await client.sendText(idChat, mensajeHidratarse());
+      await client.simulateTyping(idChat, true);
+      setTimeout(async () => {
+        await client.sendText(idChat, mensajeHidratarse());
+        await client.simulateTyping(idChat, false);
+      }, 3000);
     }
   }, 1800000);
 
   client.onMessage(async message => {
     //AYUDA
     if (message.body === '!ayuda') {
-      await client.sendText(message.from, ayuda);
+      await client.simulateTyping(message.from, true);
+      setTimeout(async () => {
+        await client.sendText(message.from, ayuda);
+        await client.simulateTyping(message.from, false);
+      }, 3000);
     }
 
     //AYUDA GENEROS
     if (message.body === '!generos') {
-      await client.sendText(message.from, generos);
+      await client.simulateTyping(message.from, true);
+      setTimeout(async () => {
+        await client.sendText(message.from, generos);
+        await client.simulateTyping(message.from, false);
+      }, 3000);
     }
 
     //HOROSCOPO
@@ -76,8 +52,11 @@ function start(client) {
     ) {
       const signo = message.body.split(' ')[1];
       const resultadoHoroscopo = await horoscopo(signo);
-
-      await client.sendText(message.from, resultadoHoroscopo);
+      await client.simulateTyping(message.from, true);
+      setTimeout(async () => {
+        await client.sendText(message.from, resultadoHoroscopo);
+        await client.simulateTyping(message.from, false);
+      }, 3000);
     }
 
     //PELICULAS
@@ -94,13 +73,20 @@ function start(client) {
       } else {
         resultadoPelicula = await buscarPelicula(arrayGeneroIngresado[1]);
       }
-
-      await client.sendText(message.from, resultadoPelicula);
+      await client.simulateTyping(message.from, true);
+      setTimeout(async () => {
+        await client.sendText(message.from, resultadoPelicula);
+        await client.simulateTyping(message.from, false);
+      }, 3000);
     }
     //VERSICULO
     if (message.body === '!versiculo') {
       const versiculo = await obtenerVersiculo();
-      await client.sendText(message.from, versiculo);
+      await client.simulateTyping(message.from, true);
+      setTimeout(async () => {
+        await client.sendText(message.from, versiculo);
+        await client.simulateTyping(message.from, false);
+      }, 3000);
     }
 
     //REIRSE
@@ -108,7 +94,11 @@ function start(client) {
       message.body.toLowerCase().includes('jaja') ||
       message.body.toLowerCase().includes('juajua')
     ) {
-      await client.sendText(message.from, reirse());
+      await client.simulateTyping(message.from, true);
+      setTimeout(async () => {
+        await client.sendText(message.from, reirse());
+        await client.simulateTyping(message.from, false);
+      }, 3000);
     }
 
     //ACTIVAR RECORDATORIO PARA TOMAR AGUA
@@ -122,20 +112,26 @@ function start(client) {
 
       idChat = message.from;
       recordatorioHidratarse = true;
-
-      await client.sendText(
-        message.from,
-        'Recordatorio activado! Para desactivarlo enviá: *!agua off*',
-      );
-      setTimeout(() => {}, 1500);
-      await client.sendText(message.from, mensajeHidratarse());
+      await client.simulateTyping(message.from, true);
+      setTimeout(async () => {
+        await client.sendText(
+          message.from,
+          'Recordatorio activado! Para desactivarlo enviá: *!agua off*',
+        );
+        await client.sendText(message.from, mensajeHidratarse());
+        await client.simulateTyping(message.from, false);
+      }, 3000);
     }
 
     //DESACTIVAR RECORDATORIO PARA TOMAR AGUA
     if (message.body === '!agua off') {
       idChat = '';
       recordatorioHidratarse = false;
-      await client.sendText(message.from, 'Recordatorio desactivado!');
+      await client.simulateTyping(message.from, true);
+      setTimeout(async () => {
+        await client.sendText(message.from, 'Recordatorio desactivado!');
+        await client.simulateTyping(message.from, false);
+      }, 3000);
     }
   });
 }

@@ -16,12 +16,11 @@
   "author": "Diego Camy",
   "license": "MIT",
   "dependencies": {
+    "@open-wa/wa-automate": "^1.9.63",
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "fs-extra": "^9.0.0",
-    "node-html-parser": "^1.2.18",
-    "sulla": "^2.3.14"
+    "node-html-parser": "^1.2.18"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
