@@ -19,7 +19,7 @@ Basta enviarle por mensaje privado o en un grupo uno de los comandos disponibles
 | ---------- | --------- | --------------------------------------------------------------- |
 | !ayuda     | N/A       | Obtener ayuda sobre los comandos disponibles                    |
 | !filme     | genero    | Obtener recomendación de pelicula                               |
-| !porneta   | N/A       | Jejejejej                                                       |
+| !porneta   | busqueda  | Busca altos videos porneta!                                     |
 | !horoscopo | signo     | Obtener tu horóscopo para el día de hoy                         |
 | !versiculo | N/A       | Obtener un versículo bíblico aleatorio                          |
 | !agua      | on/off    | Inicia/Desactiva el recordatorio para hidratarse durante el día |
