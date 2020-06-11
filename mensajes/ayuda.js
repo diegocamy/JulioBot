@@ -8,7 +8,8 @@ Para conocer los géneros usá *!generos*
 *!horoscopo* _tusigno_ - para recibir el horoscopo del día 🍀
 Ejemplo: !horoscopo acuario
 
-*!porneta* - pa faze punheta 🍆💦
+*!porneta* _porno que quieras buscar_ - pa faze punheta 🍆💦
+Ejemplo: !porneta traveco
 
 *!versiculo* - te doy una palabra de la biblia aunque seas pecador 👹
 

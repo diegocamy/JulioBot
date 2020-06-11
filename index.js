@@ -49,6 +49,7 @@ function start(client) {
 
       //HOROSCOPO
       if (
+        message.body &&
         message.body.startsWith('!horoscopo') &&
         message.body.split(' ')[1].length > 0
       ) {
@@ -63,6 +64,7 @@ function start(client) {
 
       //PELICULAS
       if (
+        message.body &&
         message.body.startsWith('!filme') &&
         message.body.split(' ')[1].length > 0
       ) {
@@ -136,20 +138,14 @@ function start(client) {
         }, 3000);
       }
 
-      //PORNETA
-      if (message.body === '!porneta') {
-        await client.simulateTyping(message.from, true);
-        await client.reply(
-          message.from,
-          'Para que voy a buscar un video',
-          message,
-        );
-        await client.simulateTyping(message.from, false);
+      //PORNETA VIDEO
+      if (message.body && message.body.startsWith('!porneta')) {
+        const query = message.body
+          .split(' ')
+          .slice(1, message.body.split(' ').length)
+          .join(' ');
 
-        await client.simulateTyping(message.from, true);
-        const video = await getVideo();
-        await client.sendLinkWithAutoPreview(message.from, video, 'Nu meio');
-        await client.simulateTyping(message.from, false);
+        await getVideo(query, client, message);
       }
     } catch (error) {
       console.log(error);
